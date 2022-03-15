@@ -1,6 +1,6 @@
-package tribore.exchangerates.data.model
+package tribore.exchangerates.data.model.valute
 
-data class ValuteApi(
+data class RON(
     val CharCode: String,
     val ID: String,
     val Name: String,
