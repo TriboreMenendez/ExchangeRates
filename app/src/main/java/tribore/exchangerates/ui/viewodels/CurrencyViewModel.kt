@@ -1,4 +1,4 @@
-package tribore.exchangerates.ui
+package tribore.exchangerates.ui.viewodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,11 +13,12 @@ import tribore.exchangerates.domain.usecase.GetListCurrencyUseCase
 
 class CurrencyViewModel : ViewModel() {
 
-    val repo = CurrencyRepositoryImpl(CurrencyApi.retrofitService)
-    val useCase = GetListCurrencyUseCase(repo)
+    // Удалить переменные после добавления DI
+    private val repo = CurrencyRepositoryImpl(CurrencyApi.retrofitService)
+    private val useCase = GetListCurrencyUseCase(repo)
 
-    private val _networkStatus = MutableLiveData<Boolean>(false)
-    val networkStatus: LiveData<Boolean> = _networkStatus
+    private val _networkStatus = MutableLiveData<NetworkStatus>(NetworkStatus.LOADING)
+    val networkStatus: LiveData<NetworkStatus> = _networkStatus
 
     private val _listRatesCurrency = MutableLiveData<List<RatesCurrencyDomainModel>>()
     val listRatesCurrency: LiveData<List<RatesCurrencyDomainModel>> = _listRatesCurrency
@@ -32,10 +33,14 @@ class CurrencyViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _listRatesCurrency.value = useCase.getRatesCurrency()
-                _networkStatus.value = true
+                _networkStatus.value = NetworkStatus.DONE
             } catch (e: Exception) {
-                _networkStatus.value = false
+                _networkStatus.value = NetworkStatus.ERROR
             }
         }
     }
+}
+
+enum class NetworkStatus {
+    LOADING, ERROR, DONE
 }
