@@ -5,30 +5,36 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import tribore.exchangerates.data.model.ResponseApiModel
+import tribore.exchangerates.data.models.ResponseApiModel
 import tribore.exchangerates.data.network.CurrencyApi
+import tribore.exchangerates.data.repository.CurrencyRepositoryImpl
+import tribore.exchangerates.domain.model.RatesCurrencyDomainModel
+import tribore.exchangerates.domain.usecase.GetListCurrencyUseCase
 
 class CurrencyViewModel : ViewModel() {
 
-    private val _status = MutableLiveData<Boolean>(false)
-    val status: LiveData<Boolean> = _status
+    val repo = CurrencyRepositoryImpl(CurrencyApi.retrofitService)
+    val useCase = GetListCurrencyUseCase(repo)
 
-    private val _listRates = MutableLiveData<ResponseApiModel>()
-    val listRates: LiveData<ResponseApiModel> = _listRates
+    private val _networkStatus = MutableLiveData<Boolean>(false)
+    val networkStatus: LiveData<Boolean> = _networkStatus
+
+    private val _listRatesCurrency = MutableLiveData<List<RatesCurrencyDomainModel>>()
+    val listRatesCurrency: LiveData<List<RatesCurrencyDomainModel>> = _listRatesCurrency
 
     init {
-        refreshData()
+        dataDownloading()
     }
 
     //Убрать приватность функции, когда потребуется обновление через UI
-    private fun refreshData() {
+    private fun dataDownloading() {
 
         viewModelScope.launch {
             try {
-                _listRates.value = CurrencyApi.retrofitService.getRatesCurrency()
-                _status.value = true
+                _listRatesCurrency.value = useCase.getRatesCurrency()
+                _networkStatus.value = true
             } catch (e: Exception) {
-                _status.value = false
+                _networkStatus.value = false
             }
         }
     }

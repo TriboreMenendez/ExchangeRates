@@ -1,6 +1,9 @@
-package tribore.exchangerates.data.model
+package tribore.exchangerates.data.models
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+
+typealias Valute = Map<String, CurrencyApiModel>
 
 @JsonClass(generateAdapter = true)
 data class ResponseApiModel(
@@ -8,5 +11,5 @@ data class ResponseApiModel(
     val PreviousDate: String,
     val PreviousURL: String,
     val Timestamp: String,
-    val Valute: Valute
+    @Json(name = "Valute") val valute: Valute
 )

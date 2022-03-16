@@ -1,6 +1,6 @@
-package tribore.exchangerates.data.model.valute
+package tribore.exchangerates.domain.model
 
-data class RON(
+data class RatesCurrencyDomainModel(
     val CharCode: String,
     val ID: String,
     val Name: String,

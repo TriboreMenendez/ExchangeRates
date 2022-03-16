@@ -1,6 +1,9 @@
-package tribore.exchangerates.data.model.valute
+package tribore.exchangerates.data.models
 
-data class BGN(
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+data class CurrencyApiModel(
     val CharCode: String,
     val ID: String,
     val Name: String,
