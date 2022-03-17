@@ -4,43 +4,40 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import tribore.exchangerates.data.models.ResponseApiModel
-import tribore.exchangerates.data.network.CurrencyApi
-import tribore.exchangerates.data.repository.CurrencyRepositoryImpl
 import tribore.exchangerates.domain.model.RatesCurrencyDomainModel
 import tribore.exchangerates.domain.usecase.GetListCurrencyUseCase
+import javax.inject.Inject
 
-class CurrencyViewModel : ViewModel() {
+@HiltViewModel
+class CurrencyViewModel @Inject constructor(private val useCaseGetCurrency: GetListCurrencyUseCase) : ViewModel() {
 
-    // Удалить переменные после добавления DI
-    private val repo = CurrencyRepositoryImpl(CurrencyApi.retrofitService)
-    private val useCase = GetListCurrencyUseCase(repo)
-
-    private val _networkStatus = MutableLiveData<NetworkStatus>(NetworkStatus.LOADING)
-    val networkStatus: LiveData<NetworkStatus> = _networkStatus
+    private val _networkStatus = MutableLiveData<DownloadingStatus>(DownloadingStatus.LOADING)
+    val downloadingStatus: LiveData<DownloadingStatus> = _networkStatus
 
     private val _listRatesCurrency = MutableLiveData<List<RatesCurrencyDomainModel>>()
     val listRatesCurrency: LiveData<List<RatesCurrencyDomainModel>> = _listRatesCurrency
 
     init {
-        dataDownloading()
+        downloadData()
     }
 
-    //Убрать приватность функции, когда потребуется обновление через UI
-    private fun dataDownloading() {
+    fun downloadData() {
+        _listRatesCurrency.value = listOf()
+        _networkStatus.value = DownloadingStatus.LOADING
 
         viewModelScope.launch {
             try {
-                _listRatesCurrency.value = useCase.getRatesCurrency()
-                _networkStatus.value = NetworkStatus.DONE
+                _listRatesCurrency.value = useCaseGetCurrency.getRatesCurrency()
+                _networkStatus.value = DownloadingStatus.DONE
             } catch (e: Exception) {
-                _networkStatus.value = NetworkStatus.ERROR
+                _networkStatus.value = DownloadingStatus.ERROR
             }
         }
     }
 }
 
-enum class NetworkStatus {
+enum class DownloadingStatus {
     LOADING, ERROR, DONE
 }
