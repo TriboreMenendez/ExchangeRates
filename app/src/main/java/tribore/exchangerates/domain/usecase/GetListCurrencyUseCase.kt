@@ -5,7 +5,7 @@ import tribore.exchangerates.domain.repository.CurrencyRepository
 
 class GetListCurrencyUseCase(private val currencyRepository: CurrencyRepository) {
 
-    suspend fun getRatesCurrency(): List<RatesCurrencyDomainModel> {
+    suspend fun execute(): List<RatesCurrencyDomainModel> {
         return currencyRepository.getRatesCurrency()
     }
 }

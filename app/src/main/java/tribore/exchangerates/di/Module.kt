@@ -10,6 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import tribore.exchangerates.data.network.CurrencyNetworkApi
 import tribore.exchangerates.data.repository.CurrencyRepositoryImpl
+import tribore.exchangerates.domain.usecase.ConvertCurrencyUseCase
 import tribore.exchangerates.domain.usecase.GetListCurrencyUseCase
 import javax.inject.Singleton
 
@@ -48,6 +49,11 @@ class Module {
     @Singleton
     fun provideGetListCurrencyUseCase(repositoryImpl: CurrencyRepositoryImpl) =
         GetListCurrencyUseCase(repositoryImpl)
+
+    @Provides
+    @Singleton
+    fun provideConvertCurrencyUseCase() = ConvertCurrencyUseCase()
+
 }
 
 

@@ -6,4 +6,12 @@
     <string name="currency_movement">-0.0823 ▼</string>
     <string name="currency_name">Австралийский доллар</string>
     <string name="char_code">USD</string>
+    <string name="rub_code">RUB ₽</string>
+    <string name="conversionCode">USD</string>
+    <string name="conversionChar">💱</string>
+    <string name="conversionButtonText">Conversion</string>
+    <string name="textValueConversion">%s c.u.</string>
+    <string name="textDefaultValueConversion">1.00 ₽</string>
+    <string name="textEditNominal">Enter amount</string>
+    <string name="nominal">%s = %s ₽</string>
 </resources>

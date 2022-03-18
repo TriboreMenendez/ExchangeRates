@@ -15,12 +15,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewCurrencyRates"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
 
             <ProgressBar
                 android:id="@+id/progressBarLoadingData"
@@ -59,6 +72,98 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageNetworkError"
                 tools:visibility="visible" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/convertibleAmount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="16dp"
+                    android:hint="@string/textEditNominal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputAmountText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/rubCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:text="@string/rub_code"
+                    app:layout_constraintBottom_toBottomOf="@+id/convertibleAmount"
+                    app:layout_constraintStart_toEndOf="@+id/convertibleAmount"
+                    app:layout_constraintTop_toTopOf="@+id/convertibleAmount"
+                    style="@style/textConversion" />
+
+                <TextView
+                    android:id="@+id/convertCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/rubCode"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/rubCode"
+                    style="@style/textConversion"/>
+
+                <TextView
+                    android:id="@+id/charConvert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/conversionChar"
+                    app:layout_constraintBottom_toBottomOf="@+id/rubCode"
+                    app:layout_constraintEnd_toStartOf="@+id/convertCode"
+                    app:layout_constraintStart_toEndOf="@+id/rubCode"
+                    app:layout_constraintTop_toTopOf="@+id/rubCode"
+                    style="@style/textConversion"/>
+
+                <Button
+                    android:id="@+id/buttonConversion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/conversionButtonText"
+                    app:layout_constraintBottom_toTopOf="@+id/textView3"
+                    app:layout_constraintEnd_toEndOf="@+id/convertibleAmount"
+                    app:layout_constraintStart_toStartOf="@+id/convertibleAmount"
+                    app:layout_constraintTop_toBottomOf="@+id/convertibleAmount" />
+
+                <TextView
+                    android:id="@+id/convertResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/buttonConversion"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/buttonConversion"
+                    app:layout_constraintTop_toTopOf="@+id/buttonConversion"
+                    style="@style/textConversion"
+                    tools:text="@string/textDefaultValueConversion"/>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="Select currency to convert"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/buttonConversion" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
