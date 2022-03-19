@@ -1,7 +1,6 @@
 package tribore.exchangerates.ui.viewodels
 
 import android.os.CountDownTimer
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,13 +21,14 @@ class CurrencyViewModel @Inject constructor(
     ViewModel() {
 
     var amountRubleForExchange = 100
-    val exchangeCurrency: ExchangeCurrency = ExchangeCurrency(0, 1.00)
+    val exchangeCurrency: ExchangeCurrency = ExchangeCurrency()
     private val timerDelay = 10000L // 10 second
+    private var flagInit = true
 
     private val _resultConversion = MutableLiveData<Double>()
     val resultConversion: LiveData<Double> = _resultConversion
 
-    private val _networkStatus = MutableLiveData<DownloadingStatus>(DownloadingStatus.LOADING)
+    private val _networkStatus = MutableLiveData<DownloadingStatus>()
     val downloadingStatus: LiveData<DownloadingStatus> = _networkStatus
 
     private val _listRatesCurrency = MutableLiveData<List<RatesCurrencyDomainModel>>()
@@ -38,46 +38,48 @@ class CurrencyViewModel @Inject constructor(
         startUpdateTimer()
     }
 
+    // Update data every $timerDelay milliseconds
+    private fun startUpdateTimer() {
+        object : CountDownTimer(timerDelay, 9999) {
+            override fun onTick(p0: Long) {
+                downloadData()
+            }
+
+            override fun onFinish() {
+                startUpdateTimer()
+            }
+        }.start()
+    }
+
     fun downloadData() {
-        _listRatesCurrency.value = listOf()
-        _networkStatus.value = DownloadingStatus.LOADING
+        //_listRatesCurrency.value = listOf()
 
         viewModelScope.launch {
             try {
                 _listRatesCurrency.value = useCaseGetCurrency.execute()
+                if (flagInit) setBaseExchangeCurrency()
                 _networkStatus.value = DownloadingStatus.DONE
-                setBaseExchangeCurrency()
             } catch (e: Exception) {
                 _networkStatus.value = DownloadingStatus.ERROR
             }
         }
     }
 
+    private fun setBaseExchangeCurrency() {
+        exchangeCurrency.apply {
+            charCode = _listRatesCurrency.value!![0].CharCode
+            value = _listRatesCurrency.value!![0].Value
+            nominal = _listRatesCurrency.value!![0].Nominal
+        }
+        flagInit = false
+    }
+
     fun convertCurrency() {
         _resultConversion.value =
             useCaseConvertCurrency.execute(amountRubleForExchange, exchangeCurrency)
     }
-
-    private fun setBaseExchangeCurrency() {
-        if (!_listRatesCurrency.value.isNullOrEmpty()) {
-            exchangeCurrency.valueExchangeCurrency = _listRatesCurrency.value!![0].Value
-            exchangeCurrency.nominalExchangeCurrency = _listRatesCurrency.value!![0].Nominal
-        }
-    }
-
-    // data update every $timerDelay milliseconds
-    private fun startUpdateTimer() {
-        object : CountDownTimer(timerDelay,9999) {
-            override fun onTick(p0: Long) {
-                downloadData()
-            }
-            override fun onFinish() {
-                startUpdateTimer()
-            }
-        }.start()
-    }
 }
 
 enum class DownloadingStatus {
-    LOADING, ERROR, DONE
+    ERROR, DONE
 }

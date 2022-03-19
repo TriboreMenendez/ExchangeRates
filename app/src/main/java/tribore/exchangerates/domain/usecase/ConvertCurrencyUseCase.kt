@@ -6,8 +6,8 @@ class ConvertCurrencyUseCase {
 
     fun execute(amountRuble: Int, exchangeCurrency: ExchangeCurrency): Double {
 
-        val nominal = exchangeCurrency.nominalExchangeCurrency
-        val value = exchangeCurrency.valueExchangeCurrency
+        val nominal = exchangeCurrency.nominal
+        val value = exchangeCurrency.value
         return  amountRuble / value * nominal
     }
 

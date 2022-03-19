@@ -2,7 +2,6 @@ package tribore.exchangerates.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.get
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.DiffUtil
@@ -20,6 +19,9 @@ class CurrencyRatesAdapter(private val onClick: (RatesCurrencyDomainModel) -> Un
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: RatesCurrencyDomainModel) {
+            val resultMovement = item.Value - item.Previous
+            val formatCurrencyMovement = String.format("%.4f", resultMovement)
+
             binding.charCodeText.text = item.CharCode
             binding.currencyNameText.text = item.Name
             binding.currencyValueText.text = binding.root.context.getString(
@@ -29,6 +31,20 @@ class CurrencyRatesAdapter(private val onClick: (RatesCurrencyDomainModel) -> Un
             )
             binding.root.setOnClickListener {
                 onClick(item)
+            }
+
+            if (item.Value < item.Previous) {
+                binding.currencyMovementText.text = binding.root.context.getString(
+                    R.string.depreciation, formatCurrencyMovement)
+                            binding . currencyMovementText . setTextColor (
+                            binding.root.context.resources.getColor(R.color.red)
+                            )
+            } else {
+                binding.currencyMovementText.text = binding.root.context.getString(
+                    R.string.growth, formatCurrencyMovement)
+                binding.currencyMovementText.setTextColor(
+                    binding.root.context.resources.getColor(R.color.green)
+                )
             }
         }
     }

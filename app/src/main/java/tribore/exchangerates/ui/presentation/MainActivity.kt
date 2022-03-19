@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import tribore.exchangerates.R
@@ -21,32 +22,21 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: CurrencyViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private val adapterCurrencyRecycler = CurrencyRatesAdapter { item -> onClickRecyclerItem(item) }
+    private var messageErrorConnection = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val recyclerViewCurrencyRates = binding.recyclerViewCurrencyRates
+        messageErrorConnection = getString(R.string.message_error_connection)
         recyclerViewCurrencyRates.adapter = adapterCurrencyRecycler
 
         // Displaying data on the results of the download
         viewModel.downloadingStatus.observe(this) {
             when (it) {
-                DownloadingStatus.LOADING -> {
-                    hideNetworkError()
-                }
-                DownloadingStatus.ERROR -> {
-                    hideProgressBar()
-                    showNetworkError()
-                }
-                else -> {
-                    adapterCurrencyRecycler.submitList(viewModel.listRatesCurrency.value)
-                    binding.recyclerViewCurrencyRates.visibility = View.VISIBLE
-                    binding.swipeRefreshData.isRefreshing = false
-                    binding.convertCode.text = viewModel.listRatesCurrency.value!![0].CharCode
-                    hideProgressBar()
-                    hideNetworkError()
-                }
+                DownloadingStatus.DONE -> eventSuccessLoadingData()
+                else -> eventErrorInternetConnection()
             }
         }
 
@@ -64,31 +54,38 @@ class MainActivity : AppCompatActivity() {
         binding.inputAmountText.setOnKeyListener { view, keyCode, _ ->
             handleKeyEvent(view, keyCode)
         }
-
     }
 
-    private fun showNetworkError() {
-        binding.imageNetworkError.visibility = View.VISIBLE
-        binding.textNetworkError.visibility = View.VISIBLE
-        binding.recyclerViewCurrencyRates.visibility = View.INVISIBLE
+    private fun eventErrorInternetConnection() {
+        Toast.makeText(this, messageErrorConnection, Toast.LENGTH_SHORT).show()
         binding.swipeRefreshData.isRefreshing = false
+        if (binding.progressBarLoadingData.visibility == View.VISIBLE) {
+            binding.progressBarLoadingData.visibility =
+                View.INVISIBLE
+        }
     }
 
-    private fun hideNetworkError() {
-        binding.imageNetworkError.visibility = View.INVISIBLE
-        binding.textNetworkError.visibility = View.INVISIBLE
+    private fun eventSuccessLoadingData() {
+        adapterCurrencyRecycler.submitList(viewModel.listRatesCurrency.value)
+        binding.swipeRefreshData.isRefreshing = false
+
+        if (binding.convertCode.text.isEmpty())
+            binding.convertCode.text = viewModel.exchangeCurrency.charCode
+                    //viewModel.listRatesCurrency.value?.get(0)?.CharCode
+
+        if (binding.progressBarLoadingData.visibility == View.VISIBLE) {
+            binding.progressBarLoadingData.visibility =
+                View.INVISIBLE
+        }
     }
 
-    private fun hideProgressBar() {
-        binding.progressBarLoadingData.visibility = View.INVISIBLE
-    }
-
-    // click listener for recycler. Choice of currency for conversion
+    // Click listener for recycler. Choice of currency for conversion
     private fun onClickRecyclerItem(itemCurrency: RatesCurrencyDomainModel) {
         binding.convertCode.text = itemCurrency.CharCode
         viewModel.exchangeCurrency.apply {
-            nominalExchangeCurrency = itemCurrency.Nominal
-            valueExchangeCurrency = itemCurrency.Value
+            charCode = itemCurrency.CharCode
+            nominal = itemCurrency.Nominal
+            value = itemCurrency.Value
         }
     }
 
