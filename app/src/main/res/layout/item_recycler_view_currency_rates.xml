@@ -18,8 +18,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="@string/char_code"
             android:textAppearance="?attr/textAppearanceHeadline6"
+            tools:text="@string/char_code"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,6 +31,7 @@
             android:layout_marginEnd="16dp"
             android:text="@string/currency_name"
             android:textColor="@color/black"
+            tools:text="@string/currency_name"
             app:layout_constraintBottom_toBottomOf="@+id/charCodeText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/charCodeText"
@@ -46,6 +47,7 @@
             android:text="@string/currency_value"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textStyle="bold"
+            tools:text="@string/currency_value"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/charCodeText" />
@@ -55,8 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="@string/currency_movement"
             android:textColor="@color/red"
+            tools:text="@string/currency_movement"
             app:layout_constraintBottom_toBottomOf="@+id/currencyValueText"
             app:layout_constraintEnd_toEndOf="parent" />
 

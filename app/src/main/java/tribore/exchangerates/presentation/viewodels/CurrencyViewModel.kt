@@ -1,4 +1,4 @@
-package tribore.exchangerates.ui.viewodels
+package tribore.exchangerates.presentation.viewodels
 
 import android.os.CountDownTimer
 import androidx.lifecycle.LiveData

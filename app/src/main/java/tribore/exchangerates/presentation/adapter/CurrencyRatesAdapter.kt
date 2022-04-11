@@ -1,4 +1,4 @@
-package tribore.exchangerates.ui.adapter
+package tribore.exchangerates.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

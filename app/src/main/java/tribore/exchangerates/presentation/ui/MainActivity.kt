@@ -1,4 +1,4 @@
-package tribore.exchangerates.ui.presentation
+package tribore.exchangerates.presentation.ui
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +12,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import tribore.exchangerates.R
 import tribore.exchangerates.databinding.ActivityMainBinding
 import tribore.exchangerates.domain.model.RatesCurrencyDomainModel
-import tribore.exchangerates.ui.adapter.CurrencyRatesAdapter
-import tribore.exchangerates.ui.viewodels.CurrencyViewModel
-import tribore.exchangerates.ui.viewodels.DownloadingStatus
+import tribore.exchangerates.presentation.adapter.CurrencyRatesAdapter
+import tribore.exchangerates.presentation.viewodels.CurrencyViewModel
+import tribore.exchangerates.presentation.viewodels.DownloadingStatus
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -71,7 +71,6 @@ class MainActivity : AppCompatActivity() {
 
         if (binding.convertCode.text.isEmpty())
             binding.convertCode.text = viewModel.exchangeCurrency.charCode
-                    //viewModel.listRatesCurrency.value?.get(0)?.CharCode
 
         if (binding.progressBarLoadingData.visibility == View.VISIBLE) {
             binding.progressBarLoadingData.visibility =

@@ -8,7 +8,7 @@ class CurrencyRepositoryImpl(private val currencyNetworkApi: CurrencyNetworkApi)
 
     // Converting the data model to a domain model
     override suspend fun getRatesCurrency(): List<RatesCurrencyDomainModel> {
-        return currencyNetworkApi.getRatesCurrency().valute.values.map { it.toDomain() }
+        return currencyNetworkApi.getRatesCurrency().Currency.values.map { it.toDomain() }
     }
 
 }

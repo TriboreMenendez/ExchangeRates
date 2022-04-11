@@ -11,5 +11,5 @@ data class ResponseApiModel(
     val PreviousDate: String,
     val PreviousURL: String,
     val Timestamp: String,
-    @Json(name = "Valute") val valute: Valute
+    @Json(name = "Valute") val Currency: Valute
 )

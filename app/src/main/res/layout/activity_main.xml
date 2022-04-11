@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.presentation.MainActivity">
+    tools:context=".presentation.ui.MainActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshData"
@@ -33,6 +33,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/item_recycler_view_currency_rates"
                 app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
 
             <ProgressBar
