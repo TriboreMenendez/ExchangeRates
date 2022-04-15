@@ -80,11 +80,11 @@ class MainActivity : AppCompatActivity() {
 
     // Click listener for recycler. Choice of currency for conversion
     private fun onClickRecyclerItem(itemCurrency: RatesCurrencyDomainModel) {
-        binding.convertCode.text = itemCurrency.CharCode
+        binding.convertCode.text = itemCurrency.charCode
         viewModel.exchangeCurrency.apply {
-            charCode = itemCurrency.CharCode
-            nominal = itemCurrency.Nominal
-            value = itemCurrency.Value
+            charCode = itemCurrency.charCode
+            nominal = itemCurrency.nominal
+            value = itemCurrency.value
         }
     }
 

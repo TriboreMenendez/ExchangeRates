@@ -1,6 +1,7 @@
 package tribore.exchangerates.domain.usecase
 
 import tribore.exchangerates.domain.model.ExchangeCurrency
+import java.lang.IllegalArgumentException
 
 class ConvertCurrencyUseCase {
 
@@ -8,7 +9,9 @@ class ConvertCurrencyUseCase {
 
         val nominal = exchangeCurrency.nominal
         val value = exchangeCurrency.value
-        return  amountRuble / value * nominal
+
+        return if (value == 0.0) throw IllegalArgumentException("Divisor is 0")
+        else (amountRuble / value) * nominal
     }
 
 }

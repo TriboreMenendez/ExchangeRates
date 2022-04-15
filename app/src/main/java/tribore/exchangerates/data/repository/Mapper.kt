@@ -6,12 +6,12 @@ import tribore.exchangerates.domain.model.RatesCurrencyDomainModel
 fun CurrencyApiModel.toDomain(): RatesCurrencyDomainModel {
 
     return RatesCurrencyDomainModel(
-        CharCode = this.CharCode ,
-        ID = this.ID,
-        Name = this.Name,
-        Nominal = this.Nominal,
-        NumCode = this.NumCode,
-        Previous = this.Previous,
-        Value = this.Value
+        charCode = this.CharCode ,
+        id = this.ID,
+        name = this.Name,
+        nominal = this.Nominal,
+        numCode = this.NumCode,
+        previous = this.Previous,
+        value = this.Value
     )
 }

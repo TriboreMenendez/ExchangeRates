@@ -1,11 +1,11 @@
 package tribore.exchangerates.domain.model
 
 data class RatesCurrencyDomainModel(
-    val CharCode: String,
-    val ID: String,
-    val Name: String,
-    val Nominal: Int,
-    val NumCode: String,
-    val Previous: Double,
-    val Value: Double
+    val charCode: String,
+    val id: String,
+    val name: String,
+    val nominal: Int,
+    val numCode: String,
+    val previous: Double,
+    val value: Double
 )

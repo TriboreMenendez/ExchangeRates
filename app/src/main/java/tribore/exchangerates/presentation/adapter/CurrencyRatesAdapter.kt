@@ -19,21 +19,21 @@ class CurrencyRatesAdapter(private val onClick: (RatesCurrencyDomainModel) -> Un
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: RatesCurrencyDomainModel) {
-            val resultMovement = item.Value - item.Previous
+            val resultMovement = item.value - item.previous
             val formatCurrencyMovement = String.format("%.4f", resultMovement)
 
-            binding.charCodeText.text = item.CharCode
-            binding.currencyNameText.text = item.Name
+            binding.charCodeText.text = item.charCode
+            binding.currencyNameText.text = item.name
             binding.currencyValueText.text = binding.root.context.getString(
                 R.string.nominal,
-                item.Nominal.toString(),
-                item.Value.toString()
+                item.nominal.toString(),
+                item.value.toString()
             )
             binding.root.setOnClickListener {
                 onClick(item)
             }
 
-            if (item.Value < item.Previous) {
+            if (item.value < item.previous) {
                 binding.currencyMovementText.text = binding.root.context.getString(
                     R.string.depreciation, formatCurrencyMovement)
                             binding . currencyMovementText . setTextColor (

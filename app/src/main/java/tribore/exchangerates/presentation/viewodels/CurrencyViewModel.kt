@@ -67,9 +67,9 @@ class CurrencyViewModel @Inject constructor(
 
     private fun setBaseExchangeCurrency() {
         exchangeCurrency.apply {
-            charCode = _listRatesCurrency.value!![0].CharCode
-            value = _listRatesCurrency.value!![0].Value
-            nominal = _listRatesCurrency.value!![0].Nominal
+            charCode = _listRatesCurrency.value!![0].charCode
+            value = _listRatesCurrency.value!![0].value
+            nominal = _listRatesCurrency.value!![0].nominal
         }
         flagInit = false
     }
